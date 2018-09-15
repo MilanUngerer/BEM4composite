@@ -1,6 +1,8 @@
 # README
 
-Simulation code for 1 geometry only. For more information please see "Code_instructions.ipynb"
+Simulation code for multigeometry composite, the geometry consist in a matrix that contain multiple inclusions, for this work we considered a polimer containing multiple ferromagnetic microwires. For more information please see "Code_instructions.ipynb"
 
-"1_hilo.py" is the current code for the simulation. Also is available an optional formulation for the same problem.
+"conector.py" is the code that take the data from "info.txt" and make a executable python code ("ejecutor.py") to solve the problem.
+
+For use the code should fill the information in the "info.txt" script and run "run.sh".
 
