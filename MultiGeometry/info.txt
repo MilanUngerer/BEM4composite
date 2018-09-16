@@ -3,8 +3,8 @@
 ###################################################################################
 
 #PROPIEDADES MAGNETICAS (relativas)
-#AMPLITUD DEL CAMPO  FRECUENCIA  MU_MEDIO   EPSILON_MEDIO     MU_HILO           EPSILON_HILO          DIST_RECEPTOR[(x,y,z) micras]
-1.                    10.e9        (1.)     (16.)        (-2.9214+0.5895j)   (82629.2677-200138.2211j)    [[1e4],[0.],[0.]]
+#AMPLITUD DEL CAMPO  FRECUENCIA  MU_MEDIO   EPSILON_MEDIO     MU_HILO           CONDUCTIVIDAD_HILO          DIST_RECEPTOR[(x,y,z) micras]
+1.                    10.e9        (1.)     (16.)        (-2.9214+0.5895j)       (6.5e4 * 1e-18)    [[1e4],[0.],[0.]]
 
 #IMPORTAR MALLAS (/direccion/nombre.msh)
 #### MALLA DEL MEDIO ##############################################################
@@ -12,7 +12,7 @@
 
 #### MALLAS DE LOS HILOS ##########################################################
 '/home/milan/PH1_a5_l10_E5550_D2.msh'
-#'/home/milan/PH2_a5_l10_E5550_D2.msh'
+'/home/milan/PH2_a5_l10_E5550_D2.msh'
 #'/home/milan/PH3_a5_l10_E5550_D2.msh'
 #'/home/milan/PH4_a5_l10_E5550_D2.msh'
 #'/home/milan/PH5_a5_l10_E5550_D2.msh'

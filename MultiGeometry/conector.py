@@ -33,11 +33,11 @@ exe.write('mu0 = 4.*np.pi*1e-7*1e6\n') #permeabilidad del vacio
 exe.write('mue = ' + info[0][2] + '*mu0\n') #permeabilidad de la matriz
 exe.write('ee = ' + info[0][3] + '*e0\n') #permitividad de la matriz
 exe.write('mui = ' + info[0][4] + '*mu0\n') #permeabilidad del conductor
-exe.write('ei = ' + info[0][5] + '*e0\n') #permitividad del conductor
+exe.write('cci = ' + info[0][5] + '\n') #permitividad del conductor
 exe.write('k = omega*np.sqrt(e0*mu0)\n') #numero de onda exterior
 exe.write('lam = 2*np.pi/k\n') #longitud de onda al exterior
 exe.write('nm = np.sqrt((ee*mue)/(e0*mu0))\n') #indice de refraccion matriz
-exe.write('nc = np.sqrt((ei*mui)/(e0*mu0))\n') #indice de refraccion conductor
+exe.write('nc = np.sqrt((1.j*cci*mui)/(omega*e0*mu0))\n') #indice de refraccion conductor
 exe.write('alfa_m = mue/mu0\n') #indice de transmision matriz
 exe.write('alfa_c = mui/mue\n') #indice de transmision conductor
 exe.write('antena = np.array('+info[0][6]+')\n') #Punto antena receptor
@@ -104,9 +104,9 @@ for i in range(N_hilos): #Operadores identidad en hilos
 
 #operadores diagonales
 exe.write('\n#Operadores diagonales\n')
-exe.write('op_m[1,1] = op_m[1,1] + 0.5 * ident_m * ((alfa_m -1)/alfa_m)\n')
+exe.write('op_m[1,1] = op_m[1,1] + 0.5 * ident_m * ((1-alfa_m)/alfa_m)\n')
 for i in range(N_hilos):
-    exe.write('op_'+str(i)+'[1,1] = op_' + str(i) + '[1,1] + 0.5 * ident_' + str(i) + '* (alfa_c - 1)\n')
+    exe.write('op_'+str(i)+'[1,1] = op_' + str(i) + '[1,1] + 0.5 * ident_' + str(i) + '* (1-alfa_c)\n')
 
 #Operadores entre mallas
 exe.write('\n#Operadores entre mallas\n')
@@ -164,17 +164,17 @@ for i in range(2, 2*(N_hilos+1)-1, 2): #Contribucion hilos-hilos
     for j in range(2, 2*(N_hilos+1)-1, 2):
         if i<j:
             exe.write('\n#Contribucion hilos-hilos\n')
-            exe.write('blocked['+str(i)+','+str(j)+'] = DLP_'+str(c2+1)+'_'+str(c1)+'\n') #Double-layer hilo-hilo
-            exe.write('blocked['+str(i)+','+str(j+1)+'] = -SLP_'+str(c2+1)+'_'+str(c1)+'\n') #Single-layer hilo-hilo
-            exe.write('blocked['+str(i+1)+','+str(j)+'] = -HYP_'+str(c2+1)+'_'+str(c1)+'\n') #Hypersingular hilo-hilo
-            exe.write('blocked['+str(i+1)+','+str(j+1)+'] = -ADLP_'+str(c2+1)+'_'+str(c1)+'\n') #Adjoint hilo-hilo
+            exe.write('blocked['+str(i)+','+str(j)+'] = -DLP_'+str(c2+1)+'_'+str(c1)+'\n') #Double-layer hilo-hilo
+            exe.write('blocked['+str(i)+','+str(j+1)+'] = SLP_'+str(c2+1)+'_'+str(c1)+'\n') #Single-layer hilo-hilo
+            exe.write('blocked['+str(i+1)+','+str(j)+'] = HYP_'+str(c2+1)+'_'+str(c1)+'\n') #Hypersingular hilo-hilo
+            exe.write('blocked['+str(i+1)+','+str(j+1)+'] = ADLP_'+str(c2+1)+'_'+str(c1)+'\n') #Adjoint hilo-hilo
             c2+=1
         elif i>j:
             exe.write('\n#Contribucion hilos-hilos\n')
-            exe.write('blocked['+str(i)+','+str(j)+'] = DLP_'+str(c2)+'_'+str(c1)+'\n') #Double-layer hilo-hilo
-            exe.write('blocked['+str(i)+','+str(j+1)+'] = -SLP_'+str(c2)+'_'+str(c1)+'\n') #Single-layer hilo-hilo
-            exe.write('blocked['+str(i+1)+','+str(j)+'] = -HYP_'+str(c2)+'_'+str(c1)+'\n') #Hypersingular hilo-hilo
-            exe.write('blocked['+str(i+1)+','+str(j+1)+'] = -ADLP_'+str(c2)+'_'+str(c1)+'\n') #Adjoint hilo-hilo
+            exe.write('blocked['+str(i)+','+str(j)+'] = -DLP_'+str(c2)+'_'+str(c1)+'\n') #Double-layer hilo-hilo
+            exe.write('blocked['+str(i)+','+str(j+1)+'] = SLP_'+str(c2)+'_'+str(c1)+'\n') #Single-layer hilo-hilo
+            exe.write('blocked['+str(i+1)+','+str(j)+'] = HYP_'+str(c2)+'_'+str(c1)+'\n') #Hypersingular hilo-hilo
+            exe.write('blocked['+str(i+1)+','+str(j+1)+'] = ADLP_'+str(c2)+'_'+str(c1)+'\n') #Adjoint hilo-hilo
             c2+=1
     
     exe.write('\n#Contribucion matriz-hilos\n') #Contribucion matriz en hilos
